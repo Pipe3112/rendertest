@@ -1,12 +1,12 @@
 from pathlib import Path
-import os
 
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# ========================
-# Seguridad
-# ========================
+# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-$3v*o%=2@omq(8g22o+9eejd=(rz3@-8$_hhzp%gu&(se6+ww1'
+
+# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 ALLOWED_HOSTS = [
@@ -15,9 +15,7 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
 ]
 
-# ========================
-# Aplicaciones instaladas
-# ========================
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -26,7 +24,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # Apps propias
+    # Apps
     'mycalendar',
 
     # Terceros
@@ -34,19 +32,16 @@ INSTALLED_APPS = [
     "corsheaders",
 ]
 
-# ========================
-# Middleware
-# ========================
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
-    "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",  # 👈 necesario en Render
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # 👈 para servir estáticos en prod
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'api.urls'
@@ -69,31 +64,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'api.wsgi.application'
 
-# ========================
 # CORS
-# ========================
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",              # frontend en local
-    "https://rendertest-1p34.onrender.com",  # dominio Render
+    "http://localhost:5173",
+    "https://rendertest-1p34.onrender.com",
 ]
-
-# Mientras pruebas, puedes abrir todo (no recomendado en prod)
+# Durante pruebas puedes usar:
 # CORS_ALLOW_ALL_ORIGINS = True
 
-# ========================
-# Base de datos
-# ========================
+# Database (SQLite por ahora, recomendable migrar a PostgreSQL en Render)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-# ⚠️ Nota: en Render lo ideal es PostgreSQL con dj_database_url
 
-# ========================
-# Validación de contraseñas
-# ========================
+# Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -109,22 +96,25 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# ========================
-# Internacionalización
-# ========================
+# Internationalization
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# ========================
-# Archivos estáticos
-# ========================
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-# ========================
-# Default PK
-# ========================
+# ✅ Configuración moderna para Django 4.2+ (corrige tu error en Render)
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
+# Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
