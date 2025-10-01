@@ -1,7 +1,10 @@
-set -o errexit
+#!/usr/bin/env bash
+set -e
 
-pip install -r requirements.txt
+echo "Collectstatic..."
+python manage.py collectstatic --noinput
 
-python manage.py collectstatic --no-input
+echo "Migrate DB..."
+python manage.py migrate --noinput
 
-python manage.py migrate
+echo "Done build.sh"
