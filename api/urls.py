@@ -15,5 +15,5 @@ def home(request):
 urlpatterns = [
     path('', home),  # 👈 evita el error 400 en Render
     path('admin/', admin.site.urls),
-    path('api/', include('mycalendar.urls')),  # 👈 ahora tu API está en /api/
+    path('api/', include('mycalendar.urls')),  # 👈 tu API va en /api/
 ]
