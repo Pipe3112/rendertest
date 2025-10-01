@@ -1,13 +1,12 @@
 from rest_framework import serializers
-from .models import * 
+from mycalendar.models import Appointments  # 👈 importar bien el modelo
 
 class AppointmentSerializer(serializers.ModelSerializer):
-    title = serializers.CharField(source='name')
-    start = serializers.DateField(source='start_date')
-    end = serializers.DateField(source='end_date')
-    classNames = serializers.CharField(source='status')
+    title = serializers.CharField(source='name')  # name → title
+    start = serializers.DateField(source='start_date')  # start_date → start
+    end = serializers.DateField(source='end_date')  # end_date → end
+    classNames = serializers.CharField(source='status')  # status → classNames
 
-    class Meta: 
+    class Meta:
         model = Appointments
-        fields = ('id','start','classNames', 'end','title')
-
+        fields = ('id', 'title', 'start', 'end', 'classNames')
